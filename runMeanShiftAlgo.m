@@ -3,13 +3,13 @@
 % returns the newCenter of the best candidate model in the given frame
 function [newCenter] = runMeanShiftAlgo(image , currentCenter , size , q)
 newCenter = currentCenter;
-deltaMod = 99999;
-while deltaMod > 2
-    %compute the candidate model prob distribution
-    p = computeWeightedHistogram(image , currentCenter ,size );
-
+% for first iteration compute the target candidate
+p = computeWeightedHistogram(image , newCenter ,size );
+similarity = 0;
+maxIterations = 5;
+iterNum = 1;
+while similarity < 0.2 && iterNum < maxIterations
     weights = computeWeightMatrix(image , newCenter , size , q , p);
-
     sumWeights = sum(weights(:));
     rowSum = 0;
     colSum = 0;
@@ -33,4 +33,13 @@ while deltaMod > 2
     deltaMod = sqrt(deltaRow^2 + deltaCol^2);
     %meanX and meanY becomes our new center
     newCenter = [ ceil(meanRow)  ceil(meanCol)];
+    %compute the  new candidate model prob distribution
+    p = computeWeightedHistogram(image , newCenter ,size );
+    similarity = computeSimilarity(q,p,48);
+    iterNum = iterNum + 1;
+end
+
+if iterNum == maxIterations
+    disp('max iteratins reached---similarity==');
+    disp(similarity);
 end
