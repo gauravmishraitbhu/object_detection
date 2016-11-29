@@ -1,6 +1,6 @@
 function main(vaargins)
 
-videoFilePath = 'input.mp4';
+videoFilePath = '../data/input1.mp4';
 [frameSequence ,numFrames, frameHeight, frameWidth] = openVideo(videoFilePath);
 
 [inputRect,center] = takeUserInput(frameSequence)
@@ -9,7 +9,7 @@ videoFilePath = 'input.mp4';
 % we need to create a weighted histogram out of our target model
 windowSize = inputRect(3);
 disp(windowSize);
-q = computeWeightedHistogram(frameSequence(1).cdata , center , windowSize);
+q = computeWeightedHistogram(frameSequence(1).cdata , center , windowSize , 1);
 disp(q);
 
 prevCenter = center;
@@ -27,10 +27,10 @@ end
 disp(currentFrameCenter);
 
 rectangle('Position' , inputRect , 'EdgeColor' , 'r');
-% outputVideo = VideoWriter('output1.mp4');
-% open(outputVideo);
-% writeVideo(outputVideo , frameSequence);
-% close(outputVideo);
+ outputVideo = VideoWriter('output1');
+ open(outputVideo);
+ writeVideo(outputVideo , frameSequence);
+ close(outputVideo);
 movie(frameSequence);
 
 
