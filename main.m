@@ -5,20 +5,22 @@ videoFilePath = '../data/input1.mp4';
 
 [inputRect,center] = takeUserInput(frameSequence)
 
+[ bp,kernel ] = Get_fg_colormodel( frameSequence(1).cdata, inputRect, 5, 2);
 % now we have our target model 
 % we need to create a weighted histogram out of our target model
 windowSize = inputRect(3);
 disp(windowSize);
-q = computeWeightedHistogram(frameSequence(1).cdata , center , windowSize , 1);
+q = computeWeightedHistogram(frameSequence(1).cdata , center , windowSize , 1,kernel);
 disp(q);
 
 prevCenter = center;
+
 % now we will run mean shift algo on next frame onwards and find the object
 % in next frame
 for frameNum = 2 : numFrames
     disp ('Frame Number ---');
     disp(frameNum);
-    [currentFrameCenter] = runMeanShiftAlgo( frameSequence(frameNum).cdata , prevCenter, windowSize, q ); 
+    [currentFrameCenter] = runMeanShiftAlgo( frameSequence(frameNum).cdata , prevCenter, windowSize, q , kernel ); 
     frameSequence(frameNum).cdata = drawRectangle(frameSequence(frameNum).cdata , currentFrameCenter , windowSize);
     prevCenter = currentFrameCenter;
     disp(prevCenter);

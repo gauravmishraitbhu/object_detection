@@ -1,11 +1,11 @@
 
 % q - target model
 % returns the newCenter of the best candidate model in the given frame
-function [newCenter] = runMeanShiftAlgo(image , currentCenter , size , q)
+function [newCenter] = runMeanShiftAlgo(image , currentCenter , size , q , kernel)
 newCenter = currentCenter;
 featureSpace = 1;
 % for first iteration compute the target candidate
-p = computeWeightedHistogram(image , newCenter ,size ,featureSpace );
+p = computeWeightedHistogram(image , newCenter ,size ,featureSpace ,kernel);
 similarity = 0;
 maxIterations = 15;
 iterNum = 1;

@@ -5,9 +5,9 @@
 % feature space considered is rgb. vector size = 48 . ie we will create 16 bins of r , g,b
 % center is a vector of size 2 which has first value as row and 2nd value
 % as column.
-function [histogram] = computeWeightedHistogram(image , center , patchSize,type)
+function [histogram] = computeWeightedHistogram(image , center , patchSize,type , kernel)
  radius = floor(patchSize / 2);
- kernel = createKernel(patchSize , radius);
+%  kernel = createKernel(patchSize , radius);
  
  % first extract out the patch from the full image to 
  % make calculations of indexes easier
